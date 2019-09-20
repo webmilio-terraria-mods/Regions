@@ -1,4 +1,7 @@
-﻿using Terraria.ModLoader;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
+using Terraria.ModLoader;
+using WebmilioCommons.Extensions;
 
 namespace Regions.Tiles
 {
@@ -11,7 +14,10 @@ namespace Regions.Tiles
 
         public override bool CanKillTile(int i, int j, int type, ref bool blockDamaged)
         {
-            return base.CanKillTile(i, j, type, ref blockDamaged);
+            Player player = new Vector2(i, j).GetNearestMiningPlayer();
+            Main.NewText($"Block hit by found player {player.name}");
+
+            return true;
         }
     }
 }

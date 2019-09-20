@@ -1,17 +1,25 @@
 using System;
 using System.IO;
+using On.Terraria;
 using Terraria.ModLoader;
 using WebmilioCommons.Networking;
 
 namespace Regions
 {
-	public sealed class Regions : Mod
+	public sealed class RegionsMod : Mod
 	{
-		public Regions()
+		public RegionsMod()
         {
             Instance = this;
         }
 
+
+        public override void Load()
+        {
+            
+
+            base.Load();
+        }
 
         public override void Unload()
         {
@@ -23,6 +31,6 @@ namespace Regions
             NetworkPacketLoader.Instance.HandlePacket(reader, whoAmI);
 
 
-        public static Regions Instance { get; private set; }
+        public static RegionsMod Instance { get; private set; }
 	}
 }

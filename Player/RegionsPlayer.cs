@@ -1,8 +1,9 @@
 ﻿using Terraria.ModLoader;
 
-namespace Regions.Players
+namespace Regions.Player
 {
     public class RegionsPlayer : ModPlayer
     {
+        
     }
 }

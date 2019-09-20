@@ -1,3 +1,4 @@
 displayName = Regions
 author = Webmilio, The Stupid Furry in my Discord
 version = 0.1
+modReferences = WebmilioCommons@0.1.7.0
