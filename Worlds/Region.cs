@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 
-namespace Regions.World
+namespace Regions.Worlds
 {
     public class Region
     {

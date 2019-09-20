@@ -1,10 +1,11 @@
-﻿using Terraria;
+﻿using Regions.Players;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Regions.Items
 {
-    public class WoodenAxe : ModItem
+    public class WoodenAxe : ModItem, IRegionTool
     {
         public override void SetStaticDefaults()
         {
@@ -17,12 +18,24 @@ namespace Regions.Items
             item.width = 32;
             item.height = 28;
 
+            item.useTime = 15;
+            item.useAnimation = item.useTime;
+            item.useStyle = ItemUseStyleID.SwingThrow;
+
+            item.pick = 1;
+            item.axe = 1;
+            item.hammer = 1;
+
             item.value = Item.sellPrice(copper: 40);
             item.rare = ItemRarityID.Blue;
         }
 
 
-        
+        public override void HoldItem(Player player)
+        {
+            if (Main.LocalPlayer == player)
+                RegionsPlayer.Get(player).HoldingRegionTool = true;
+        }
 
 
         public override void AddRecipes()
