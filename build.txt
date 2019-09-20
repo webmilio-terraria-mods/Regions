@@ -1,0 +1,3 @@
+displayName = Regions
+author = Webmilio, The Stupid Furry in my Discord
+version = 0.1
