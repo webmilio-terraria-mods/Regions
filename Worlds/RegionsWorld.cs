@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
@@ -8,33 +9,69 @@ namespace Regions.Worlds
 {
     public class RegionsWorld : ModWorld
     {
-        private List<Region> _regions = new List<Region>();
+        private const string REGIONS_TAG_KEY = "Regions";
+        private List<Region> _regions;
 
 
         public void AddRegion(Region region) => _regions.Add(region);
 
 
-        public override void PostDrawTiles()
-        {
-            foreach (Region region in _regions)
-            {
-                Main.spriteBatch.Begin();
-                Main.spriteBatch.Draw(Main.magicPixel, new Rectangle((int)((region.Surface.X * 16) - Main.screenPosition.X), (int)(region.Surface.Y * 16 - Main.screenPosition.Y), region.Surface.Width * 16, region.Surface.Height * 16), Color.Red);
-                Main.spriteBatch.End();
-            }
+        public int IndexOfRegion(Region region) => _regions.IndexOf(region);
+        public int FindRegionIndex(Predicate<Region> match) => _regions.FindIndex(match);
 
-            base.PostDrawTiles();
+        public Region GetFirstRegion(Player player) => GetFirstRegion(player.position);
+        public Region GetFirstRegion(Vector2 position)
+        {
+            for (int i = 0; i < _regions.Count; i++)
+                if (_regions[i].Surface.Contains((int) position.X, (int) position.Y))
+                    return _regions[i];
+
+            return null;
         }
 
 
+        public List<Region> GetRegions(Player player) => GetRegions(player.position);
+        public List<Region> GetRegions(Vector2 position)
+        {
+            List<Region> regions = new List<Region>();
+
+            for (int i = 0; i < _regions.Count; i++)
+                if (_regions[i].Contains(position))
+                    regions.Add(_regions[i]);
+
+            return regions;
+        }
+
+
+        public override void Initialize()
+        {
+            _regions = new List<Region>();
+        }
+
         public override void Load(TagCompound tag)
         {
-            
+            _regions = new List<Region>();
+
+            IList<TagCompound> tags = tag.GetList<TagCompound>(REGIONS_TAG_KEY);
+
+            for (int i = 0; i < tags.Count; i++)
+                _regions.Add(Region.Parse(tags[i]));
         }
 
         public override TagCompound Save()
         {
-            return new TagCompound();
+            List<TagCompound> regions = new List<TagCompound>();
+
+            for (int i = 0; i < _regions.Count; i++)
+                regions.Add(_regions[i].Save());
+
+
+            TagCompound tag = new TagCompound()
+            {
+                { REGIONS_TAG_KEY, regions }
+            };
+
+            return tag;
         }
     }
 }
