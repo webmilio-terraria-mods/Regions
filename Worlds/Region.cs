@@ -55,15 +55,15 @@ namespace Regions.Worlds
 
         public static Region Parse(TagCompound tag) =>
             new Region(Guid.Parse(tag.GetString(nameof(UUID))),
-                tag.Get<Point>(nameof(FirstPoint)), tag.Get<Point>(nameof(SecondPoint)));
+                tag.Get<Vector2>(nameof(FirstPoint)).ToPoint(), tag.Get<Vector2>(nameof(SecondPoint)).ToPoint());
 
         public TagCompound Save() =>
             new TagCompound()
             {
-                { nameof(UUID), UUID },
+                { nameof(UUID), UUID.ToString() },
 
-                { nameof(FirstPoint), FirstPoint },
-                { nameof(SecondPoint), SecondPoint }
+                { nameof(FirstPoint), FirstPoint.ToVector2() },
+                { nameof(SecondPoint), SecondPoint.ToVector2() }
             };
 
 

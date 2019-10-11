@@ -1,7 +1,9 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using On.Terraria;
 using Terraria.ModLoader;
+using Terraria.UI;
 using WebmilioCommons.Networking;
 
 namespace Regions
@@ -24,6 +26,15 @@ namespace Regions
         public override void Unload()
         {
             Instance = null;
+        }
+
+
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            layers.Add(new ("kek", () =>
+            {
+                
+            }, InterfaceScaleType.Game));
         }
 
 

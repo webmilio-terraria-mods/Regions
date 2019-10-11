@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using WebmilioCommons.Players;
 
 namespace Regions.Worlds
 {
@@ -23,20 +24,48 @@ namespace Regions.Worlds
         public Region GetFirstRegion(Vector2 position)
         {
             for (int i = 0; i < _regions.Count; i++)
-                if (_regions[i].Surface.Contains((int) position.X, (int) position.Y))
+                if (_regions[i].Contains((int) position.X, (int) position.Y))
                     return _regions[i];
 
             return null;
         }
 
 
-        public List<Region> GetRegions(Player player) => GetRegions(player.position);
-        public List<Region> GetRegions(Vector2 position)
+        public List<Region> GetRegions() => new List<Region>(_regions);
+
+        public List<Region> GetRegionsForPlayer(Player player) => GetRegionsForPlayer(WCPlayer.Get(player));
+        public List<Region> GetRegionsForPlayer(ModPlayer modPlayer) => GetRegionsForPlayer(WCPlayer.Get(modPlayer));
+
+        public List<Region> GetRegionsForPlayer(WCPlayer wcPlayer)
+        {
+            List<Region> regions = new List<Region>(_regions.Capacity);
+
+            for (int i = 0; i < _regions.Count; i++)
+                if (_regions[i].CanContribute(wcPlayer.UniqueID))
+                    regions.Add(_regions[i]);
+
+            return regions;
+        }
+
+        public List<Region> GetRegionsAtPosition(Player player) => GetRegionsAtPosition(player.position);
+        public List<Region> GetRegionsAtPosition(Vector2 position)
+        {
+            List<Region> regions = new List<Region>(_regions.Capacity);
+
+            for (int i = 0; i < _regions.Count; i++)
+                if (_regions[i].Contains(position))
+                    regions.Add(_regions[i]);
+
+            return regions;
+        }
+
+
+        public List<Region> GetRegionsAtPositionForPlayer(Player player)
         {
             List<Region> regions = new List<Region>();
 
             for (int i = 0; i < _regions.Count; i++)
-                if (_regions[i].Contains(position))
+                if (_regions[i].Contains((int)(player.position.X / 16), (int)(player.position.Y / 16)) && _regions[i].CanContribute(player))
                     regions.Add(_regions[i]);
 
             return regions;

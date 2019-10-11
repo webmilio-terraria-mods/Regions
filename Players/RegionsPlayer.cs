@@ -35,7 +35,7 @@ namespace Regions.Players
             else if (!SecondPoint.HasValue)
                 SecondPoint = point;
 
-            if (SecondPoint.HasValue)
+            if (FirstPoint.HasValue && SecondPoint.HasValue)
                 mod.GetModWorld<RegionsWorld>().AddRegion(new Region(FirstPoint.Value, SecondPoint.Value));
         }
 

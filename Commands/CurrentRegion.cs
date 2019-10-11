@@ -15,13 +15,13 @@ namespace Regions.Commands
         public override void Action(CommandCaller caller, string input, string[] args)
         {
             RegionsWorld regionWorld = mod.GetModWorld<RegionsWorld>();
-            List<Region> regions = regionWorld.GetRegions(caller.Player);
+            List<Region> regions = regionWorld.GetRegionsAtPositionForPlayer(caller.Player.position.ToTileCoordinates().ToVector2());
 
             foreach (Region region in regions)
             {
                 Main.NewTextMultiline($"Region Index: {regionWorld.IndexOfRegion(region)}\n" + 
                                       $"Region UUID: {region.UUID.ToString()}\n" + 
-                                      $"Points: ({region.FirstPoint.X}, {region.FirstPoint.Y}), ({region.SecondPoint.X}, {region.SecondPoint.Y})" +
+                                      $"Points: ({region.FirstPoint.X}, {region.FirstPoint.Y}), ({region.SecondPoint.X}, {region.SecondPoint.Y})\n" +
                                       $"Width: {region.Surface.Width}; Height: {region.Surface.Height}");
             }
         }

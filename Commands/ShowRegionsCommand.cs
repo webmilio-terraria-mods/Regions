@@ -14,8 +14,8 @@ namespace Regions.Commands
             if (args.Length == 0)
                 throw new UsageException();
 
-            if (args[0][0] == '*')
-                mod.GetModWorld<RegionsWorld>().ShowAllRegions(caller.Player);
+            //if (args[0][0] == '*')
+            //    mod.GetModWorld<RegionsWorld>().ShowAllRegions(caller.Player);
         }
 
 
